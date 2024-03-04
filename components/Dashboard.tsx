@@ -1,12 +1,23 @@
 "use client";
 
-import { getGoogleSolar, getRoofArea } from "@/actions/google-solar";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { useQuery } from "@tanstack/react-query";
-import { useAreaStore } from "@/stores/data";
+import { useLocationStore } from "@/stores/data";
+import { TestPython } from "@/lib/test";
 
 export function Dashboard() {
-  const area = useAreaStore((state) => state.area);
+  const locations = useLocationStore((state) => state.locations);
+  const selectedLocations = locations.filter((location) => location.selected);
+
+  const hasWindow = typeof window !== "undefined";
+
+  if (hasWindow) {
+    TestPython();
+  }
+
+  const totalArea = selectedLocations.reduce(
+    (acc, location) => acc + location.area,
+    0
+  );
 
   return (
     <div className="flex justify-between mt-2 mr-2">
@@ -26,7 +37,9 @@ export function Dashboard() {
         <CardHeader>
           <CardTitle>Total Surface Area</CardTitle>
         </CardHeader>
-        <CardContent>{area}</CardContent>
+        <CardContent>
+          <span>{totalArea} m²</span>
+        </CardContent>
       </Card>
     </div>
   );
