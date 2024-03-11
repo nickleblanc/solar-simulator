@@ -1,55 +1,19 @@
 attrs==23.2.0
-blinker @ file:///home/conda/feedstock_root/build_artifacts/blinker_1698890160476/work
-Brotli @ file:///Users/runner/miniforge3/conda-bld/brotli-split_1695989838345/work
-cached-property @ file:///home/conda/feedstock_root/build_artifacts/cached_property_1615209429212/work
 cattrs==23.2.3
-certifi @ file:///home/conda/feedstock_root/build_artifacts/certifi_1707022139797/work/certifi
-charset-normalizer @ file:///home/conda/feedstock_root/build_artifacts/charset-normalizer_1698833585322/work
-click @ file:///home/conda/feedstock_root/build_artifacts/click_1692311806742/work
-contourpy @ file:///Users/runner/miniforge3/conda-bld/contourpy_1699041440553/work
-cycler @ file:///home/conda/feedstock_root/build_artifacts/cycler_1696677705766/work
-ephem @ file:///Users/runner/miniforge3/conda-bld/ephem_1696889234879/work
 exceptiongroup==1.2.0
-Flask @ file:///home/conda/feedstock_root/build_artifacts/flask_1707043907952/work
-Flask-Cors @ file:///home/conda/feedstock_root/build_artifacts/flask-cors_1687783436674/work
+Flask==3.0.2
+Flask-Cors==4.0.0
 flatbuffers==24.3.7
-fonttools @ file:///Users/runner/miniforge3/conda-bld/fonttools_1708049352948/work
-h5py @ file:///Users/runner/miniforge3/conda-bld/h5py_1702471612211/work
-idna @ file:///home/conda/feedstock_root/build_artifacts/idna_1701026962277/work
-importlib_metadata @ file:///home/conda/feedstock_root/build_artifacts/importlib-metadata_1709821103657/work
-itsdangerous @ file:///home/conda/feedstock_root/build_artifacts/itsdangerous_1648147185463/work
-Jinja2 @ file:///home/conda/feedstock_root/build_artifacts/jinja2_1704966972576/work
-kiwisolver @ file:///Users/runner/miniforge3/conda-bld/kiwisolver_1695380028307/work
 llvmlite==0.42.0
-MarkupSafe @ file:///Users/runner/miniforge3/conda-bld/markupsafe_1706899979126/work
-matplotlib @ file:///Users/runner/miniforge3/conda-bld/matplotlib-suite_1708026465168/work
 NREL-PySAM==4.2.0
-numba @ file:///Users/runner/miniforge3/conda-bld/numba_1707024852667/work
-numpy @ file:///Users/runner/miniforge3/conda-bld/numpy_1707225538192/work/dist/numpy-1.26.4-cp310-cp310-macosx_10_9_x86_64.whl#sha256=d544e550b9582a12a12839ddf251b97a80a022b3d4c11cede2fb4bd206b16856
+numpy==1.26.4
 openmeteo_requests==1.2.0
 openmeteo_sdk==1.10.0
-packaging @ file:///home/conda/feedstock_root/build_artifacts/packaging_1710075952259/work
-pandas @ file:///Users/runner/miniforge3/conda-bld/pandas_1708708890023/work
-patsy @ file:///home/conda/feedstock_root/build_artifacts/patsy_1704469236901/work
-Pillow @ file:///Users/runner/miniforge3/conda-bld/pillow_1695247264469/work
+pandas==2.2.1
 platformdirs==4.2.0
-pvlib @ file:///home/conda/feedstock_root/build_artifacts/pvlib_1703096651892/work
-pyparsing @ file:///home/conda/feedstock_root/build_artifacts/pyparsing_1709721012883/work
-PySocks @ file:///home/conda/feedstock_root/build_artifacts/pysocks_1661604839144/work
-python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/python-dateutil_1709299778482/work
+pvlib==0.10.3
 python-dotenv==1.0.1
-pytz @ file:///home/conda/feedstock_root/build_artifacts/pytz_1706886791323/work
-requests @ file:///home/conda/feedstock_root/build_artifacts/requests_1684774241324/work
 requests-cache==1.2.0
 retry-requests==2.0.0
-scipy @ file:///Users/runner/miniforge3/conda-bld/scipy-split_1706041750395/work/dist/scipy-1.12.0-cp310-cp310-macosx_10_9_x86_64.whl#sha256=6f2166441ad9a99e00d5aea9c2ca7932cbe97f65d684bf5174399a7aee79f579
-six @ file:///home/conda/feedstock_root/build_artifacts/six_1620240208055/work
-statsmodels @ file:///Users/runner/miniforge3/conda-bld/statsmodels_1702575723906/work
-tornado @ file:///Users/runner/miniforge3/conda-bld/tornado_1708363149648/work
 typing_extensions==4.10.0
-tzdata @ file:///home/conda/feedstock_root/build_artifacts/python-tzdata_1707747584337/work
-unicodedata2 @ file:///Users/runner/miniforge3/conda-bld/unicodedata2_1695848189757/work
 url-normalize==1.4.3
-urllib3 @ file:///home/conda/feedstock_root/build_artifacts/urllib3_1708239446578/work
-Werkzeug @ file:///home/conda/feedstock_root/build_artifacts/werkzeug_1698235201373/work
-zipp @ file:///home/conda/feedstock_root/build_artifacts/zipp_1695255097490/work

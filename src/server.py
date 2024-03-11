@@ -1,8 +1,11 @@
-from flask import Flask
+from flask import Flask, request
 from flask import jsonify
 from flask_cors import CORS
-from histsearch import histsearch
+
 from datetime import datetime ,timedelta,date
+
+from histsearch import histsearch
+from forecast import forecast_tool
 
 server = Flask(__name__)
 CORS(server)
@@ -22,7 +25,7 @@ n_s=144
 pac=3800
 pdc=6000
 vdc=600
-panelnum=10
+# panelnum=10
 panelsrs=2
 
 
@@ -62,7 +65,21 @@ end=date(int(end[0]),int(end[1]),int(end[2]))
 
 @server.route('/hist')
 def hist():
-    return jsonify({'histsearch': histsearch(lat=lat, lon=lon, start=start, end=end, panelnum=panelnum, panelseries=panelsrs, panel_data=module_data, inverter_data=inverter).tolist()})
+    # lat=request.args.get('lat')
+    # lon=request.args.get('lon')
+    panels=request.args.get('panels')
+    panels=float(panels)
+    print(panels)
+    return jsonify({'histsearch': histsearch(lat=lat, lon=lon, start=start, end=end, panelnum=panels, panelseries=panelsrs, panel_data=module_data, inverter_data=inverter)})
+
+@server.route('/forecast')
+def forecast():
+    # lat=request.args.get('lat')
+    # lon=request.args.get('lon')
+    panels=request.args.get('panels')
+    panels=float(panels)
+    print(panels)
+    return jsonify({'histsearch': forecast_tool(lat, lon, panelnum=panels, panelseries=panelsrs, panel_data=module_data, inverter_data=inverter)})
 
 if __name__ == '__main__':
     server.run(host='0.0.0.0', port=5001)

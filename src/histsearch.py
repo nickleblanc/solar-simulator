@@ -12,7 +12,7 @@ def histsearch(lat,lon,start,end,panelnum,panelseries,panel_data,inverter_data):
     import matplotlib.pyplot as plt
     import pandas as pd
     import openmeteo_requests
-    from datetime import datetime ,timedelta,date
+    from datetime import datetime, timedelta, date
     import requests_cache
     import pandas as pd
     from retry_requests import retry
@@ -72,8 +72,6 @@ def histsearch(lat,lon,start,end,panelnum,panelseries,panel_data,inverter_data):
         
         # 2nd step: Apply model to estimate the 5 parameters of the single diode equation using the CEC model
 
-
-
         diode_params = pvlib.pvsystem.calcparams_cec(irrad, temp_cell, panel_data['alpha_sc'], cec_fit_params[4], 
                                                     cec_fit_params[0], cec_fit_params[1], cec_fit_params[3], 
                                                     cec_fit_params[2], cec_fit_params[5])
@@ -89,22 +87,15 @@ def histsearch(lat,lon,start,end,panelnum,panelseries,panel_data,inverter_data):
         acpower =pvlib.inverter.sandia(iv_values1['v_mp']*panelseries, # DC voltage input to the inverter
                                         iv_values1['p_mp']*panelnum, # DC power input to the inverter
                                          inverter_data) # Parameters for the inverter 
-        times=minutely_15_data['date']-timedelta(hours=4)
-       ## Plotting
+        times=minutely_15_data['date']-timedelta(hours=3)
+
         times=times.strftime("%m/%d %H:%M")
-        i=0
-        xpos=[0]*int((len(times)/48))
-        while i<(len(times)/48):
-            xpos[i]=i*48
-            i=i+1
-        xlabs=times[xpos]
-        plt.figure(1)
-        plt.plot(times,acpower)
-        plt.title("AC power Generation 3 Day Forecast")
-        plt.xlabel("Date and Time")
-        plt.ylabel("AC Power Generated (W)")
-        plt.xticks(xpos,xlabs,rotation='vertical')
-        return times, acpower
+
+        object = {
+            "times": times.tolist(),
+            "acpower": acpower.tolist()
+        }
+        return object
     else:
       url = "https://archive-api.open-meteo.com/v1/archive"
       params = {
@@ -167,21 +158,12 @@ def histsearch(lat,lon,start,end,panelnum,panelseries,panel_data,inverter_data):
     acpower =pvlib.inverter.sandia(iv_values1['v_mp']*panelseries, # DC voltage input to the inverter
                                         iv_values1['p_mp']*panelnum, # DC power input to the inverter
                                          inverter_data) # Parameters for the inverter 
-    times=hourly_data['date']-timedelta(hours=4)
-       ## Plotting
+    times=hourly_data['date']-timedelta(hours=3)
+
     times=times.strftime("%m/%d %H:%M")
-    i=0
-    xpos=[0]*int((len(times)/12))
-    while i<(len(times)/12):
-            xpos[i]=i*12
-            i=i+1
-    xlabs=times[xpos]
-    # plt.figure(2)
-    # plt.plot(times,acpower)
-    # plt.title("AC power Generation 3 Day Forecast")
-    # plt.xlabel("Date and Time")
-    # plt.ylabel("AC Power Generated (W)")
-    # plt.xticks(xpos,xlabs,rotation='vertical')
-    # print("Test")
-    # print(acpower)
-    return acpower
+
+    object = {
+        "times": times.tolist(),
+        "acpower": acpower.tolist()
+    }
+    return object
