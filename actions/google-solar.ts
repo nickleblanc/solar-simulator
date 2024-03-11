@@ -1,4 +1,4 @@
-"use server";
+// "use server";
 
 const API_KEY = "AIzaSyCLNTEwwzO2ni2D675At4AXrqXE0pKnX7w";
 

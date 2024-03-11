@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 import { Chart } from "chart.js/auto";
 
-export function Graph() {
+export function Graph(data: any) {
+  data = data.data.histsearch;
+  console.log(data);
   useEffect(() => {
     var ctx = document.getElementById("chart") as HTMLCanvasElement | null;
     ctx = ctx?.getContext("2d") as HTMLCanvasElement | null;
@@ -9,43 +11,14 @@ export function Graph() {
     var myChart = new Chart(ctx, {
       type: "line",
       data: {
-        labels: [
-          "Sunday",
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-        ],
+        labels: data.times,
         datasets: [
           {
-            data: [86, 114, 106, 106, 107, 11, 133],
-            label: "Applied",
+            data: data.acpower,
+            label: "AC Power",
             borderColor: "#3e95cd",
             backgroundColor: "#7bb6dd",
-            fill: false,
-          },
-          {
-            data: [70, 90, 44, 60, 83, 90, 100],
-            label: "Accepted",
-            borderColor: "#3cba9f",
-            backgroundColor: "#71d1bd",
-            fill: false,
-          },
-          {
-            data: [10, 21, 60, 44, 17, 21, 17],
-            label: "Pending",
-            borderColor: "#ffa500",
-            backgroundColor: "#ffc04d",
-            fill: false,
-          },
-          {
-            data: [6, 3, 2, 2, 7, 0, 16],
-            label: "Rejected",
-            borderColor: "#c45850",
-            backgroundColor: "#d78f89",
-            fill: false,
+            fill: true,
           },
         ],
       },
@@ -53,7 +26,7 @@ export function Graph() {
     return () => {
       myChart.destroy();
     };
-  }, []);
+  }, [data]);
 
   return (
     <div>
