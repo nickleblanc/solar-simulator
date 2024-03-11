@@ -32,7 +32,7 @@ export function InputForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     const data = await getRoofArea(values.latitude, values.longitude);
-    addLocation(values.name, values.latitude, values.longitude, data);
+    addLocation(values.name, values.latitude, values.longitude, data, true);
     console.log(data);
   }
 

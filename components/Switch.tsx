@@ -15,7 +15,7 @@ export function SwitchSlider({ id }: SwitchSliderProps) {
   console.log(isChecked);
 
   useEffect(() => {
-    setSelected(id);
+    setSelected(id, isChecked);
     // console.log(locations);
   }, [setSelected, isChecked, id]);
 

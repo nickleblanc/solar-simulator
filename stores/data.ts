@@ -19,9 +19,10 @@ interface LocationState {
     name: string,
     latitude: string,
     longitude: string,
-    area: number
+    area: number,
+    selected: boolean
   ) => void;
-  setSelected: (id: string) => void;
+  setSelected: (id: string, selected: boolean) => void;
 }
 
 const onCheckedChange = (checked: boolean) => {
@@ -35,7 +36,8 @@ export const useLocationStore = create<LocationState>((set) => ({
     name: string,
     latitude: string,
     longitude: string,
-    area: number
+    area: number,
+    selected: boolean
   ) =>
     set((state) => ({
       locations: [
@@ -46,17 +48,15 @@ export const useLocationStore = create<LocationState>((set) => ({
           latitude,
           longitude,
           area,
-          selected: true,
+          selected,
           onCheckedChange: onCheckedChange,
         },
       ],
     })),
-  setSelected: (id: string) =>
+  setSelected: (id: string, selected: boolean) =>
     set((state) => ({
       locations: state.locations.map((location) =>
-        location.id === id
-          ? { ...location, selected: !location.selected }
-          : location
+        location.id === id ? { ...location, selected: selected } : location
       ),
     })),
 }));
