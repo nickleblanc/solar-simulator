@@ -30,7 +30,7 @@ export function Graph(data: any) {
 
   return (
     <div>
-      <canvas id="chart" width="200" height="200"></canvas>
+      <canvas id="chart" width="600" height="600"></canvas>
     </div>
   );
 }

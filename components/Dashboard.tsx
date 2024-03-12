@@ -6,8 +6,17 @@ import { useLocationStore } from "@/stores/data";
 import { useQuery } from "@tanstack/react-query";
 import { Graph } from "@/components/Graph";
 import { calculateNumberOfPanels } from "@/lib/panel";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Calendar } from "@/components/ui/calendar";
+import { DateRange } from "react-day-picker";
 
 export function Dashboard() {
+  const defaultSelected: DateRange = {
+    from: new Date(2024, 1, 1),
+    to: new Date(2024, 1, 7),
+  };
+
+  const [range, setRange] = useState<DateRange | undefined>(defaultSelected);
   const locations = useLocationStore((state) => state.locations);
   const selectedLocations = locations.filter((location) => location.selected);
 
@@ -29,7 +38,7 @@ export function Dashboard() {
   const data = useQuery({
     queryKey: ["data"],
     queryFn: fetchData,
-    refetchInterval: 5000,
+    // refetchInterval: 5000,
   });
 
   if (data.isLoading) {
@@ -64,7 +73,24 @@ export function Dashboard() {
           </CardContent>
         </Card>
       </div>
-      <Graph data={data.data} />
+      <Tabs defaultValue="history" className="w-full m-2 mt-4">
+        <TabsList>
+          <TabsTrigger value="history">History</TabsTrigger>
+          <TabsTrigger value="forecast">Forecast</TabsTrigger>
+        </TabsList>
+        <TabsContent value="history" className="flex m-4">
+          <Calendar
+            mode="range"
+            selected={range}
+            onSelect={setRange}
+            disabled={{ after: new Date() }}
+          />
+          <div className="flex w-full justify-center">
+            <Graph data={data.data} />
+          </div>
+        </TabsContent>
+        <TabsContent value="forecast">Change your password here.</TabsContent>
+      </Tabs>
     </div>
   );
 }
