@@ -18,8 +18,10 @@ def histsearch(lat,lon,start,end,panelnum,panelseries,panel_data,inverter_data,n
     from retry_requests import retry
     # from requests_cache import DO_NOT_CACHE 
 
+    print(numlocations)
     inverter_data_copy=inverter_data.copy()
     inverter_data_copy['Paco']=inverter_data_copy['Paco']*numlocations
+    inverter_data_copy['Pdco']=inverter_data_copy['Pdco']*numlocations
     
     ## Calling weather API openmeteo
     # Setup the Open-Meteo API client with cache and retry on error
