@@ -3,6 +3,7 @@
 import { InputForm } from "@/components/input-form";
 import { useLocationStore } from "@/stores/data";
 import { SwitchSlider } from "./Switch";
+import { Button } from "@/components/ui/button";
 
 export function SideBar() {
   const locations = useLocationStore((state) => state.locations);
@@ -11,7 +12,7 @@ export function SideBar() {
     <div>
       <InputForm />
       <div>
-        <h2 className="font-bold">Locations</h2>
+        <h2 className="font-bold mt-6">Locations</h2>
         {locations.map((location) => {
           return (
             <div key={location.id} className="pb-1">

@@ -8,7 +8,6 @@ export function calculateNumberOfPanels(area: number) {
   const numPanels = Math.floor(area / (length * width));
   const solarProduction = numPanels * watts;
   const costOfPanels = Math.round(cost * solarProduction * 100) / 100;
-  // const costOfPanels = cost * solarProduction;
   const payback = costOfPanels / annualreturn;
   return { numPanels, solarProduction, costOfPanels, payback };
 }

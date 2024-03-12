@@ -44,7 +44,7 @@ export function InputForm() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>Location Name</FormLabel>
               <FormControl>
                 <Input placeholder="" {...field} />
               </FormControl>

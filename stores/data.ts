@@ -22,6 +22,7 @@ interface LocationState {
     area: number,
     selected: boolean
   ) => void;
+  deleteLocation: (id: string) => void;
   setSelected: (id: string, selected: boolean) => void;
 }
 
@@ -52,6 +53,10 @@ export const useLocationStore = create<LocationState>((set) => ({
           onCheckedChange: onCheckedChange,
         },
       ],
+    })),
+  deleteLocation: (id: string) =>
+    set((state) => ({
+      locations: state.locations.filter((location) => location.id !== id),
     })),
   setSelected: (id: string, selected: boolean) =>
     set((state) => ({
