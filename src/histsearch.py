@@ -5,7 +5,7 @@ Created on Thu Feb 29 10:37:30 2024
 @author: noahj
 """
 
-def histsearch(lat,lon,start,end,panelnum,panelseries,panel_data,inverter_data):
+def histsearch(lat,lon,start,end,panelnum,panelseries,panel_data,inverter_data,numlocations):
     import pvlib
     from pvlib import pvsystem 
     import numpy as np
@@ -17,6 +17,9 @@ def histsearch(lat,lon,start,end,panelnum,panelseries,panel_data,inverter_data):
     import pandas as pd
     from retry_requests import retry
     # from requests_cache import DO_NOT_CACHE 
+
+    inverter_data_copy=inverter_data.copy()
+    inverter_data_copy['Paco']=inverter_data_copy['Paco']*numlocations
     
     ## Calling weather API openmeteo
     # Setup the Open-Meteo API client with cache and retry on error
@@ -86,7 +89,7 @@ def histsearch(lat,lon,start,end,panelnum,panelseries,panel_data,inverter_data):
                                                 method='lambertw') # I-V using the Lambert W. function
         acpower =pvlib.inverter.sandia(iv_values1['v_mp']*panelseries, # DC voltage input to the inverter
                                         iv_values1['p_mp']*panelnum, # DC power input to the inverter
-                                         inverter_data) # Parameters for the inverter 
+                                         inverter_data_copy) # Parameters for the inverter 
         times=minutely_15_data['date']-timedelta(hours=3)
 
         times=times.strftime("%m/%d %H:%M")
@@ -157,7 +160,7 @@ def histsearch(lat,lon,start,end,panelnum,panelseries,panel_data,inverter_data):
                                                 method='lambertw') # I-V using the Lambert W. function
     acpower =pvlib.inverter.sandia(iv_values1['v_mp']*panelseries, # DC voltage input to the inverter
                                         iv_values1['p_mp']*panelnum, # DC power input to the inverter
-                                         inverter_data) # Parameters for the inverter 
+                                         inverter_data_copy) # Parameters for the inverter 
     times=hourly_data['date']-timedelta(hours=3)
 
     times=times.strftime("%m/%d %H:%M")

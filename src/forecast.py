@@ -5,7 +5,7 @@ Created on Wed Feb 21 14:14:59 2024
 @author: noahj
 """
 
-def forecast_tool(lat, lon,panelnum,panelseries,panel_data,inverter_data):
+def forecast_tool(lat, lon,panelnum,panelseries,panel_data,inverter_data,numlocations):
     import pvlib
     from pvlib import pvsystem 
     import numpy as np
@@ -18,8 +18,10 @@ def forecast_tool(lat, lon,panelnum,panelseries,panel_data,inverter_data):
     import pandas as pd
     from retry_requests import retry
     # from requests_cache import DO_NOT_CACHE
-    
 
+    inverter_data_copy=inverter_data.copy()
+    inverter_data_copy['Paco']=inverter_data_copy['Paco']*numlocations
+    
     ## Calling weather API openmeteo
     # Setup the Open-Meteo API client with cache and retry on error
     cache_session = requests_cache.CachedSession('.cache',cache_control=True, expire_after=120)
@@ -84,7 +86,7 @@ def forecast_tool(lat, lon,panelnum,panelseries,panel_data,inverter_data):
 
     acpower =pvlib.inverter.sandia(iv_values1['v_mp']*panelseries, # DC voltage input to the inverter
                                     iv_values1['p_mp']*panelnum, # DC power input to the inverter
-                                     inverter_data) # Parameters for the inverter 
+                                     inverter_data_copy) # Parameters for the inverter 
     times=minutely_15_data['date']-timedelta(hours=3)
     
     

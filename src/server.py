@@ -28,7 +28,6 @@ vdc=600
 # panelnum=10
 panelsrs=2
 
-
 ## entering panel paramters
 module_data = {'Technology': 'monocrystalline Q.ANTUM solar half cells', # technology
          'STC': stc, # STC power
@@ -43,7 +42,6 @@ module_data = {'Technology': 'monocrystalline Q.ANTUM solar half cells', # techn
          'N_s': n_s, # Number of cells in series
          'temp_ref': 25}  # Reference temperature conditions
 
-
 inverter = {'Paco': pac,   # AC Power rating  User provided
                      'Pso': pac*0.01, # power consumed by inverter 1% of Ac rating is reasonable 
                      'Pdco': pdc, # Dc power input resulting in Paco at reference voltage   User provided
@@ -55,31 +53,27 @@ inverter = {'Paco': pac,   # AC Power rating  User provided
                     'Pnt': 1, # Power consumed at night
                    } 
 
-start = '2023,1,8'
-end = '2023,1,10'
-
-start=start.split(",",-1)
-end=end.split(",",-1)
-start=date(int(start[0]),int(start[1]),int(start[2]))
-end=date(int(end[0]),int(end[1]),int(end[2]))
-
 @server.route('/hist')
 def hist():
-    # lat=request.args.get('lat')
-    # lon=request.args.get('lon')
     panels=request.args.get('panels')
     panels=float(panels)
-    print(panels)
-    return jsonify({'histsearch': histsearch(lat=lat, lon=lon, start=start, end=end, panelnum=panels, panelseries=panelsrs, panel_data=module_data, inverter_data=inverter)})
+    start=request.args.get('from')
+    start=start.split(",",-1)
+    start=date(int(start[0]),int(start[1]),int(start[2]))
+    end=request.args.get('to')
+    end=end.split(",",-1)
+    end=date(int(end[0]),int(end[1]),int(end[2]))
+    numlocations=float(request.args.get('numlocations'))
+    print(numlocations)
+    return jsonify({'histsearch': histsearch(lat=lat, lon=lon, start=start, end=end, panelnum=panels, panelseries=panelsrs, panel_data=module_data, inverter_data=inverter, numlocations=numlocations)})
 
 @server.route('/forecast')
 def forecast():
-    # lat=request.args.get('lat')
-    # lon=request.args.get('lon')
     panels=request.args.get('panels')
     panels=float(panels)
+    numlocations=float(request.args.get('numlocations'))
     print(panels)
-    return jsonify({'histsearch': forecast_tool(lat, lon, panelnum=panels, panelseries=panelsrs, panel_data=module_data, inverter_data=inverter)})
+    return jsonify({'forecast': forecast_tool(lat, lon, panelnum=panels, panelseries=panelsrs, panel_data=module_data, inverter_data=inverter, numlocations=numlocations)})
 
 if __name__ == '__main__':
     server.run(host='0.0.0.0', port=5001)
