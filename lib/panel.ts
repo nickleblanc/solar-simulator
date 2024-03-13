@@ -1,7 +1,7 @@
-const length = 10;
-const width = 20;
+const length = 1;
+const width = 2;
 const cost = 3.01;
-const watts = 500;
+const watts = 400;
 const annualreturn = 2125;
 
 export function calculateNumberOfPanels(area: number) {
