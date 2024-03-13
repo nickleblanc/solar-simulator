@@ -89,16 +89,15 @@ export function Dashboard() {
   // }
 
   async function onClick() {
-    // console.log(await fetchForecast());
     const test = await fetchForecast();
     console.log(test);
     setForecastData(test);
   }
 
   function getDateString(date: Date) {
-    return `${date.getFullYear().toString()},${date
-      .getMonth()
-      .toString()},${date.getDate().toString()}`;
+    return `${date.getFullYear().toString()},${(
+      date.getMonth() + 1
+    ).toString()},${date.getDate().toString()}`;
   }
 
   async function onSubmit(data: any) {
