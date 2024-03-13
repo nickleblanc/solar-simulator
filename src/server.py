@@ -64,7 +64,7 @@ def hist():
     end=end.split(",",-1)
     end=date(int(end[0]),int(end[1]),int(end[2]))
     numlocations=float(request.args.get('numlocations'))
-    print(numlocations)
+    print(request.get_json())
     return jsonify({'histsearch': histsearch(lat=lat, lon=lon, start=start, end=end, panelnum=panels, panelseries=panelsrs, panel_data=module_data, inverter_data=inverter, numlocations=numlocations)})
 
 @server.route('/forecast')
