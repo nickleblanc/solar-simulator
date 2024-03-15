@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useLocationStore } from "@/stores/data";
-import { useQuery } from "@tanstack/react-query";
+import { useParameterStore } from "@/stores/parameters";
 import { Graph } from "@/components/Graph";
 import { calculateNumberOfPanels } from "@/lib/panel";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -13,20 +13,10 @@ import { DateRange } from "react-day-picker";
 import { Button } from "@/components/ui/button";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CalendarIcon } from "@radix-ui/react-icons";
-import { format } from "date-fns";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 
 const FormSchema = z.object({
   daterange: z.object({
@@ -50,6 +40,8 @@ export function Dashboard() {
   const locations = useLocationStore((state) => state.locations);
   const selectedLocations = locations.filter((location) => location.selected);
 
+  const parameters = useParameterStore((state) => state);
+
   const totalArea = selectedLocations.reduce(
     (acc, location) => acc + location.area,
     0
@@ -61,32 +53,38 @@ export function Dashboard() {
     calculateNumberOfPanels(totalArea);
 
   const fetchHistory = async (start: string, end: string) => {
-    const response = await fetch(
-      `http://localhost:5001/hist?panels=${numPanels}&from=${start}&to=${end}&numlocations=${numLocations}`
-    );
+    const body = {
+      parameters: parameters,
+      start: start,
+      end: end,
+      numLocations: numLocations,
+      numPanels: numPanels,
+    };
+    const response = await fetch(`http://localhost:5001/hist`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
     return response.json();
   };
 
   const fetchForecast = async () => {
-    const response = await fetch(
-      `http://localhost:5001/forecast?panels=${numPanels}&numlocations=${numLocations}`
-    );
+    const body = {
+      parameters: parameters,
+      numLocations: numLocations,
+      numPanels: numPanels,
+    };
+    const response = await fetch(`http://localhost:5001/forecast`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
     return response.json();
   };
-
-  // const data = useQuery({
-  //   queryKey: ["data"],
-  //   queryFn: fetchData,
-  //   // refetchInterval: 5000,
-  // });
-
-  // if (data.isLoading) {
-  //   return <div>Loading...</div>;
-  // }
-
-  // if (data.isError) {
-  //   return <div>Error: {data.error.message}</div>;
-  // }
 
   async function onClick() {
     const test = await fetchForecast();
