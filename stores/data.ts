@@ -6,8 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 interface Location {
   id: string;
   name: string;
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
   area: number;
   selected: boolean;
   onCheckedChange?: (checked: boolean) => void;
@@ -17,8 +17,8 @@ interface LocationState {
   locations: Location[];
   addLocation: (
     name: string,
-    latitude: string,
-    longitude: string,
+    latitude: number,
+    longitude: number,
     area: number,
     selected: boolean
   ) => void;
@@ -35,8 +35,8 @@ export const useLocationStore = create<LocationState>((set) => ({
   locations: [],
   addLocation: (
     name: string,
-    latitude: string,
-    longitude: string,
+    latitude: number,
+    longitude: number,
     area: number,
     selected: boolean
   ) =>

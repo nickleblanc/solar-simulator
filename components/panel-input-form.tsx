@@ -11,26 +11,8 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { PanelFormSchema } from "@/schemas";
 import { useParameterStore } from "@/stores/parameters";
-
-const invalid_type_error = "Value must be a number";
-
-const PanelFormSchema = z.object({
-  stc: z.coerce.number({ invalid_type_error }),
-  ptc: z.coerce.number({ invalid_type_error }),
-  v_mp: z.coerce.number({ invalid_type_error }),
-  i_mp: z.coerce.number({ invalid_type_error }),
-  v_oc: z.coerce.number({ invalid_type_error }),
-  i_sc: z.coerce.number({ invalid_type_error }),
-  alpha_sc: z.coerce.number({ invalid_type_error, required_error: "Required" }),
-  beta_oc: z.coerce.number({ invalid_type_error }),
-  gamma_r: z.coerce.number({ invalid_type_error }),
-  n_s: z.coerce.number({ invalid_type_error }),
-  temp_ref: z.coerce
-    .number({ invalid_type_error })
-    .gte(-50, "Reference temperature must be between -50 and 50")
-    .lte(50, "Reference temperature must be between -50 and 50"),
-});
 
 export function PanelForm() {
   const parameters = useParameterStore((state) => state);
@@ -49,6 +31,8 @@ export function PanelForm() {
       gamma_r: parameters.gamma_r,
       n_s: parameters.n_s,
       temp_ref: parameters.temp_ref,
+      length: parameters.length,
+      width: parameters.width,
     },
   });
 
@@ -190,6 +174,33 @@ export function PanelForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Number of panels in series</FormLabel>
+                <FormControl>
+                  <Input placeholder="" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="length"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Panel Length</FormLabel>
+                <FormControl>
+                  <Input placeholder="" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="width"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Panel Width</FormLabel>
                 <FormControl>
                   <Input placeholder="" {...field} />
                 </FormControl>

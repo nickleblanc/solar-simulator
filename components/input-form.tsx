@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { formSchema } from "@/schemas";
+import { LocationFormSchema } from "@/schemas";
 import {
   Form,
   FormControl,
@@ -20,16 +20,14 @@ import { useLocationStore } from "@/stores/data";
 export function InputForm() {
   const addLocation = useLocationStore((state) => state.addLocation);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof LocationFormSchema>>({
+    resolver: zodResolver(LocationFormSchema),
     defaultValues: {
-      latitude: "",
-      longitude: "",
       name: "",
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof LocationFormSchema>) {
     console.log(values);
     const data = await getRoofArea(values.latitude, values.longitude);
     addLocation(values.name, values.latitude, values.longitude, data, true);
@@ -59,7 +57,11 @@ export function InputForm() {
             <FormItem>
               <FormLabel>Latitude</FormLabel>
               <FormControl>
-                <Input placeholder="" {...field} />
+                <Input
+                  {...form.register("latitude", {
+                    setValueAs: (v) => (v === "" ? undefined : v),
+                  })}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -72,7 +74,11 @@ export function InputForm() {
             <FormItem>
               <FormLabel>Longitude</FormLabel>
               <FormControl>
-                <Input placeholder="" {...field} />
+                <Input
+                  {...form.register("longitude", {
+                    setValueAs: (v) => (v === "" ? undefined : v),
+                  })}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -9,7 +9,7 @@ const API_KEY = "AIzaSyCLNTEwwzO2ni2D675At4AXrqXE0pKnX7w";
 //   return data.json();
 // }
 
-export async function getRoofArea(latitude: string, longitude: string) {
+export async function getRoofArea(latitude: number, longitude: number) {
   const data = await fetch(
     `https://solar.googleapis.com/v1/buildingInsights:findClosest?location.latitude=${latitude}&location.longitude=${longitude}&key=${API_KEY}`,
     { cache: "force-cache" }

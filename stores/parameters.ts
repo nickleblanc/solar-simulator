@@ -14,6 +14,8 @@ interface ParameterState {
   gamma_r: number;
   n_s: number;
   temp_ref: number;
+  length: number;
+  width: number;
 }
 
 interface Actions {
@@ -21,16 +23,18 @@ interface Actions {
 }
 
 export const useParameterStore = create<ParameterState & Actions>((set) => ({
-  stc: 3800,
-  ptc: 3000,
-  v_mp: 30,
-  i_mp: 10,
-  v_oc: 40,
-  i_sc: 12,
-  alpha_sc: 0.003,
-  beta_oc: -0.3,
-  gamma_r: -0.4,
-  n_s: 12,
+  stc: 600,
+  ptc: 454,
+  v_mp: 44,
+  i_mp: 13.64,
+  v_oc: 51.8,
+  i_sc: 14.54,
+  alpha_sc: 0.05,
+  beta_oc: -0.25,
+  gamma_r: -0.29,
+  n_s: 144,
   temp_ref: 25,
+  length: 2,
+  width: 1,
   setParameters: (values) => set(values),
 }));
