@@ -12,21 +12,23 @@ CORS(server)
         
 lat="45.964993";
 lon="-66.646332";
-stc=600;
-ptc=454;
-v_mp=44;
-i_mp=13.64
-v_oc=51.8
-i_sc=14.54
-alpha=0.05
-beta=-0.25
-gamma=-0.29
+
+stc=385;
+ptc=288.3;
+v_mp=40.24;
+i_mp=9.57
+v_oc=49.57
+i_sc=10.05
+alpha=0.04
+beta=-0.27
+gamma=-0.35
 n_s=144
-pac=3800
-pdc=6000
+
+pac=1000000
+pdc=1000000
 vdc=600
 # panelnum=10
-panelsrs=2
+panelsrs=15
 
 ## entering panel paramters
 module_data = {'Technology': 'monocrystalline Q.ANTUM solar half cells', # technology
@@ -53,19 +55,43 @@ inverter = {'Paco': pac,   # AC Power rating  User provided
                     'Pnt': 1, # Power consumed at night
                    } 
 
-@server.route('/hist')
+panel_params = {
+    'stc': 600,
+    'ptc': 454,
+    'v_mp': 44,
+    'i_mp': 13.64,
+    'v_oc': 51.8,
+    'i_sc': 14.54,
+    'alpha': 0.05,
+    'beta': -0.25,
+    'gamma': -0.29,
+    'n_s': 144,
+    'temp_ref': 25
+}
+
+def string_to_date(date_string):
+    date_list = date_string.split(",", -1)
+    return date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
+
+@server.route('/hist', methods=['POST'])
 def hist():
-    panels=request.args.get('panels')
-    panels=float(panels)
-    start=request.args.get('from')
-    start=start.split(",",-1)
-    start=date(int(start[0]),int(start[1]),int(start[2]))
-    end=request.args.get('to')
-    end=end.split(",",-1)
-    end=date(int(end[0]),int(end[1]),int(end[2]))
-    numlocations=float(request.args.get('numlocations'))
-    print(numlocations)
-    return jsonify({'histsearch': histsearch(lat=lat, lon=lon, start=start, end=end, panelnum=panels, panelseries=panelsrs, panel_data=module_data, inverter_data=inverter, numlocations=numlocations)})
+    # panels=request.args.get('panels')
+    # panels=float(panels)
+    # start=request.args.get('from')
+    # start=start.split(",",-1)
+    # start=date(int(start[0]),int(start[1]),int(start[2]))
+    # end=request.args.get('to')
+    # end=end.split(",",-1)
+    # end=date(int(end[0]),int(end[1]),int(end[2]))
+    # numlocations=float(request.args.get('numlocations'))
+    # print(numlocations)
+    print(request.get_json())
+    panel_params=request.get_json()['parameters']
+    num_panels=request.get_json()['numPanels']
+    start=string_to_date(request.get_json()['start'])
+    end=string_to_date(request.get_json()['end'])
+    num_locations=request.get_json()['numLocations']
+    return jsonify({'histsearch': histsearch(lat=lat, lon=lon, start=start, end=end, num_panels=num_panels, panel_params=panel_params, inverter_data=inverter, num_locations=num_locations)})
 
 @server.route('/forecast')
 def forecast():
