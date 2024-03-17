@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useLocationStore } from "@/stores/data";
 import { useParameterStore } from "@/stores/parameters";
+import { useTestStore } from "@/stores/test";
 import { Graph } from "@/components/Graph";
 import { calculateNumberOfPanels } from "@/lib/panel";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -17,6 +18,15 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
+
+import {
+  APIProvider,
+  Map,
+  MapMouseEvent,
+  Marker,
+} from "@vis.gl/react-google-maps";
+
+import { getRoofArea } from "@/actions/google-solar";
 
 const FormSchema = z.object({
   daterange: z.object({
@@ -37,10 +47,14 @@ export function Dashboard() {
 
   const [graphData, setGraphData] = useState<any>(null);
   const [forecastData, setForecastData] = useState<any>(null);
+
+  const addLocation = useLocationStore((state) => state.addLocation);
   const locations = useLocationStore((state) => state.locations);
   const selectedLocations = locations.filter((location) => location.selected);
 
   const parameters = useParameterStore((state) => state);
+
+  const setTest = useTestStore((state) => state.setParameters);
 
   const totalArea = selectedLocations.reduce(
     (acc, location) => acc + location.area,
@@ -108,9 +122,24 @@ export function Dashboard() {
     setGraphData(test);
   }
 
+  async function onMapClick(ev: MapMouseEvent) {
+    console.log("map clicked");
+    console.log(ev.detail);
+    if (!ev.detail.latLng) return;
+    setTest(ev.detail.latLng.lat, ev.detail.latLng.lng);
+    // const data = await getRoofArea(ev.detail.latLng.lat, ev.detail.latLng.lng);
+    // addLocation(
+    //   "New Location",
+    //   ev.detail.latLng.lat,
+    //   ev.detail.latLng.lng,
+    //   data,
+    //   true
+    // );
+  }
+
   return (
-    <div className="flex flex-col justify-between mt-2 mr-2">
-      <div className="flex flex-row">
+    <div className="flex flex-col p-2 h-screen">
+      <div className="flex flex-row h-1/6 space-x-2">
         <Card className="grow">
           <CardHeader>
             <CardTitle>Array Size</CardTitle>
@@ -132,11 +161,36 @@ export function Dashboard() {
           </CardContent>
         </Card>
       </div>
-      <Tabs defaultValue="history" className="w-full mt-10">
-        <TabsList>
+      <Tabs defaultValue="map" className="w-full mt-8 h-full flex flex-col">
+        <TabsList className="w-[215px]">
+          <TabsTrigger value="map">Map</TabsTrigger>
           <TabsTrigger value="history">History</TabsTrigger>
           <TabsTrigger value="forecast">Forecast</TabsTrigger>
         </TabsList>
+        <TabsContent value="map" className="grow">
+          <Card className="w-full h-full">
+            <APIProvider apiKey={"AIzaSyB334Kl5IrbMcEa39Y30yCG6-ulbL_5B18"}>
+              <Map
+                defaultCenter={{ lat: 45.946, lng: -66.638 }}
+                defaultZoom={15}
+                gestureHandling={"greedy"}
+                disableDefaultUI={true}
+                onClick={onMapClick}
+                className="rounded-md h-full w-full"
+              >
+                {selectedLocations.map((location) => (
+                  <Marker
+                    key={location.id}
+                    position={{
+                      lat: location.latitude,
+                      lng: location.longitude,
+                    }}
+                  />
+                ))}
+              </Map>
+            </APIProvider>
+          </Card>
+        </TabsContent>
         <TabsContent value="history" className="flex">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -179,6 +233,11 @@ export function Dashboard() {
           </div>
         </TabsContent>
       </Tabs>
+      {/* <div className="flex flex-col h-screen">
+        <div>some content</div>
+        <div className="flex-1">flex</div>
+        <div>another content</div>
+      </div> */}
     </div>
   );
 }

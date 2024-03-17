@@ -16,9 +16,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { getRoofArea } from "@/actions/google-solar";
 import { useLocationStore } from "@/stores/data";
+import { useTestStore } from "@/stores/test";
+import { useEffect } from "react";
 
 export function InputForm() {
   const addLocation = useLocationStore((state) => state.addLocation);
+  const test = useTestStore((state) => state);
 
   const form = useForm<z.infer<typeof LocationFormSchema>>({
     resolver: zodResolver(LocationFormSchema),
@@ -27,10 +30,17 @@ export function InputForm() {
     },
   });
 
+  useEffect(() => {
+    if (test.lat === null || test.lng === null) return;
+    form.setValue("latitude", test.lat);
+    form.setValue("longitude", test.lng);
+  }, [form, test]);
+
   async function onSubmit(values: z.infer<typeof LocationFormSchema>) {
     console.log(values);
     const data = await getRoofArea(values.latitude, values.longitude);
     addLocation(values.name, values.latitude, values.longitude, data, true);
+    form.reset();
     console.log(data);
   }
 

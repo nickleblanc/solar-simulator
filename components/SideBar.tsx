@@ -5,7 +5,6 @@ import { useLocationStore } from "@/stores/data";
 import { SwitchSlider } from "@/components/Switch";
 import { Button } from "@/components/ui/button";
 import { PanelForm } from "@/components/panel-input-form";
-import Link from "next/link";
 import {
   Dialog,
   DialogContent,
@@ -19,7 +18,7 @@ export function SideBar() {
   const locations = useLocationStore((state) => state.locations);
 
   return (
-    <div>
+    <div className="flex flex-col h-full">
       <InputForm />
       <div>
         <h2 className="font-bold mt-6">Locations</h2>
@@ -34,8 +33,7 @@ export function SideBar() {
           );
         })}
       </div>
-      <div>
-        <h2 className="font-bold mt-6">Panel Parameters</h2>
+      <div className="h-full flex flex-col justify-end pb-6">
         <Dialog>
           <DialogTrigger asChild>
             <Button>Change Panel Parameters</Button>
