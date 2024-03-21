@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useLocationStore } from "@/stores/data";
 import { useParameterStore } from "@/stores/parameters";
-import { useTestStore } from "@/stores/test";
+import { useFormValueStore } from "@/stores/form-values";
 import { Graph } from "@/components/Graph";
 import { calculateNumberOfPanels } from "@/lib/panel";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -54,7 +54,7 @@ export function Dashboard() {
 
   const parameters = useParameterStore((state) => state);
 
-  const setTest = useTestStore((state) => state.setParameters);
+  const setFormValues = useFormValueStore((state) => state.setValues);
 
   const totalArea = selectedLocations.reduce(
     (acc, location) => acc + location.area,
@@ -123,18 +123,8 @@ export function Dashboard() {
   }
 
   async function onMapClick(ev: MapMouseEvent) {
-    console.log("map clicked");
-    console.log(ev.detail);
     if (!ev.detail.latLng) return;
-    setTest(ev.detail.latLng.lat, ev.detail.latLng.lng);
-    // const data = await getRoofArea(ev.detail.latLng.lat, ev.detail.latLng.lng);
-    // addLocation(
-    //   "New Location",
-    //   ev.detail.latLng.lat,
-    //   ev.detail.latLng.lng,
-    //   data,
-    //   true
-    // );
+    setFormValues(ev.detail.latLng.lat, ev.detail.latLng.lng);
   }
 
   return (
@@ -174,8 +164,9 @@ export function Dashboard() {
                 defaultCenter={{ lat: 45.946, lng: -66.638 }}
                 defaultZoom={15}
                 gestureHandling={"greedy"}
-                disableDefaultUI={true}
+                disableDefaultUI={false}
                 onClick={onMapClick}
+                mapTypeId={"satellite"}
                 className="rounded-md h-full w-full"
               >
                 {selectedLocations.map((location) => (
