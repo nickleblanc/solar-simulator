@@ -19,3 +19,14 @@ export async function getRoofArea(latitude: number, longitude: number) {
 
   return roofArea;
 }
+
+export async function getRoofSegments(latitude: number, longitude: number) {
+  const data = await fetch(
+    `https://solar.googleapis.com/v1/buildingInsights:findClosest?location.latitude=${latitude}&location.longitude=${longitude}&key=${API_KEY}`,
+    { cache: "force-cache" }
+  );
+  const response = await data.json();
+  const roofSegments = response.solarPotential.roofSegmentStats;
+
+  return roofSegments;
+}
