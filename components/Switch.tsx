@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
-import { useLocationStore } from "@/stores/data";
+import { useLocationStore } from "@/stores/locations";
 
 interface SwitchSliderProps {
   id: string;

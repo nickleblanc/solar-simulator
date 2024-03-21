@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { getRoofArea, getRoofSegments } from "@/actions/google-solar";
-import { useLocationStore } from "@/stores/data";
+import { useLocationStore } from "@/stores/locations";
 import { useFormValueStore } from "@/stores/form-values";
 import { useEffect } from "react";
 

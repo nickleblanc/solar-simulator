@@ -1,7 +1,7 @@
 "use client";
 
 import { InputForm } from "@/components/input-form";
-import { useLocationStore } from "@/stores/data";
+import { useLocationStore } from "@/stores/locations";
 import { SwitchSlider } from "@/components/Switch";
 import { Button } from "@/components/ui/button";
 import { PanelForm } from "@/components/panel-input-form";

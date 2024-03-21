@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { useLocationStore } from "@/stores/data";
+import { useLocationStore } from "@/stores/locations";
 import { useParameterStore } from "@/stores/parameters";
 import { useFormValueStore } from "@/stores/form-values";
 import { Graph } from "@/components/Graph";
