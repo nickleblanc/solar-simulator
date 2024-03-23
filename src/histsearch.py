@@ -5,7 +5,7 @@ Created on Thu Feb 29 10:37:30 2024
 @author: noahj
 """
 
-def histsearch(lat,lon,start,end,num_panels,panel_params,inverter_data,num_locations):
+def histsearch(lat, lon, start, end, num_panels, panel_params, panel_series, inverter_data, num_locations):
     import pvlib
     from pvlib import pvsystem 
     import numpy as np
@@ -162,7 +162,7 @@ def histsearch(lat,lon,start,end,num_panels,panel_params,inverter_data,num_locat
                                                 diode_params[4], 
                                                 ivcurve_pnts=25,   # Number of points of the I-V curve (equally distributed)
                                                 method='lambertw') # I-V using the Lambert W. function
-    acpower =pvlib.inverter.sandia(iv_values1['v_mp']*panel_params["n_s"], # DC voltage input to the inverter
+    acpower =pvlib.inverter.sandia(iv_values1['v_mp']*panel_series, # DC voltage input to the inverter
                                         iv_values1['p_mp']*num_panels, # DC power input to the inverter
                                          inverter_data_copy) # Parameters for the inverter 
     times=hourly_data['date']-timedelta(hours=3)
