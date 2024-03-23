@@ -50,6 +50,7 @@ export function Dashboard() {
 
   const addLocation = useLocationStore((state) => state.addLocation);
   const locations = useLocationStore((state) => state.locations);
+
   const selectedLocations = locations.filter((location) => location.selected);
 
   const parameters = useParameterStore((state) => state);
@@ -127,6 +128,11 @@ export function Dashboard() {
     setFormValues(ev.detail.latLng.lat, ev.detail.latLng.lng);
   }
 
+  const stringToDollars = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+
   return (
     <div className="flex flex-col p-2 h-screen">
       <div className="flex flex-row h-1/6 space-x-2">
@@ -140,7 +146,7 @@ export function Dashboard() {
           <CardHeader>
             <CardTitle>Total Cost</CardTitle>
           </CardHeader>
-          <CardContent>${costOfPanels}</CardContent>
+          <CardContent>{stringToDollars.format(costOfPanels)}</CardContent>
         </Card>
         <Card className="grow">
           <CardHeader>
@@ -224,11 +230,6 @@ export function Dashboard() {
           </div>
         </TabsContent>
       </Tabs>
-      {/* <div className="flex flex-col h-screen">
-        <div>some content</div>
-        <div className="flex-1">flex</div>
-        <div>another content</div>
-      </div> */}
     </div>
   );
 }
