@@ -38,7 +38,7 @@ export function SideBar() {
           <DialogTrigger asChild>
             <Button>Change Panel Parameters</Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[650px]">
+          <DialogContent className="sm:max-w-[750px]">
             <DialogHeader>
               <DialogTitle>Change Solar Panel Parameters</DialogTitle>
               {/* <DialogDescription>

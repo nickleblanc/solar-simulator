@@ -52,7 +52,7 @@ export function PanelForm() {
             name="stc"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>STC Max Power</FormLabel>
+                <FormLabel>STC Max Power (W)</FormLabel>
                 <FormControl>
                   <Input placeholder="" {...field} />
                 </FormControl>
@@ -65,7 +65,7 @@ export function PanelForm() {
             name="ptc"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>PTC Max Power</FormLabel>
+                <FormLabel>PTC Max Power (W)</FormLabel>
                 <FormControl>
                   <Input placeholder="" {...field} />
                 </FormControl>
@@ -78,7 +78,7 @@ export function PanelForm() {
             name="v_mp"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Maximum Power Voltage</FormLabel>
+                <FormLabel>Maximum Power Voltage (V)</FormLabel>
                 <FormControl>
                   <Input placeholder="" {...field} />
                 </FormControl>
@@ -91,7 +91,7 @@ export function PanelForm() {
             name="i_mp"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Maximum power current under STC</FormLabel>
+                <FormLabel>Maximum power current under STC (A)</FormLabel>
                 <FormControl>
                   <Input placeholder="" {...field} />
                 </FormControl>
@@ -104,7 +104,7 @@ export function PanelForm() {
             name="v_oc"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Open circuit voltage under STC</FormLabel>
+                <FormLabel>Open circuit voltage under (V)</FormLabel>
                 <FormControl>
                   <Input placeholder="" {...field} />
                 </FormControl>
@@ -117,7 +117,7 @@ export function PanelForm() {
             name="i_sc"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Short circuit current under STC</FormLabel>
+                <FormLabel>Short circuit current under STC (A)</FormLabel>
                 <FormControl>
                   <Input placeholder="" {...field} />
                 </FormControl>
@@ -131,7 +131,7 @@ export function PanelForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  Temperature coefficient short circuit current
+                  Temperature coefficient short circuit current (%/K)
                 </FormLabel>
                 <FormControl>
                   <Input placeholder="" {...field} />
@@ -146,7 +146,7 @@ export function PanelForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  Temperature coefficient open circuit voltage
+                  Temperature coefficient open circuit voltage (%/K)
                 </FormLabel>
                 <FormControl>
                   <Input placeholder="" {...field} />
@@ -160,7 +160,9 @@ export function PanelForm() {
             name="gamma_r"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Temperature coefficient at maximum point</FormLabel>
+                <FormLabel>
+                  Temperature coefficient at maximum point (%/K)
+                </FormLabel>
                 <FormControl>
                   <Input placeholder="" {...field} />
                 </FormControl>
@@ -187,7 +189,7 @@ export function PanelForm() {
             name="length"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Panel Length</FormLabel>
+                <FormLabel>Panel Length (m)</FormLabel>
                 <FormControl>
                   <Input placeholder="" {...field} />
                 </FormControl>
@@ -200,7 +202,7 @@ export function PanelForm() {
             name="width"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Panel Width</FormLabel>
+                <FormLabel>Panel Width (m)</FormLabel>
                 <FormControl>
                   <Input placeholder="" {...field} />
                 </FormControl>
@@ -213,7 +215,7 @@ export function PanelForm() {
             name="temp_ref"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Reference Temperature</FormLabel>
+                <FormLabel>Reference Temperature (°C)</FormLabel>
                 <FormControl>
                   <Input placeholder="" {...field} />
                 </FormControl>
