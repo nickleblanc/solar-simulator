@@ -28,7 +28,7 @@ export function SideBar() {
             <div key={location.id} className="pb-1">
               <div className="text-base items-center justify-between flex">
                 <span>{location.name}</span>
-                <div className="flex justify-center flex-row items-center">
+                <div className="flex justify-center flex-row items-center space-x-1">
                   <SwitchSlider id={location.id} />
                   <DeleteButton id={location.id} />
                 </div>
