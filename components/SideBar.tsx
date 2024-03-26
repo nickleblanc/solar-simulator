@@ -3,6 +3,7 @@
 import { InputForm } from "@/components/input-form";
 import { useLocationStore } from "@/stores/locations";
 import { SwitchSlider } from "@/components/Switch";
+import { DeleteButton } from "@/components/delete-button";
 import { Button } from "@/components/ui/button";
 import { PanelForm } from "@/components/panel-input-form";
 import {
@@ -27,7 +28,10 @@ export function SideBar() {
             <div key={location.id} className="pb-1">
               <div className="text-base items-center justify-between flex">
                 <span>{location.name}</span>
-                <SwitchSlider id={location.id} />
+                <div className="flex justify-center flex-row items-center">
+                  <SwitchSlider id={location.id} />
+                  <DeleteButton id={location.id} />
+                </div>
               </div>
             </div>
           );
