@@ -18,10 +18,12 @@ import { getRoofArea, getRoofSegments } from "@/actions/google-solar";
 import { useLocationStore } from "@/stores/locations";
 import { useFormValueStore } from "@/stores/form-values";
 import { useEffect } from "react";
+import { calculateNumberOfPanels } from "@/lib/panel";
 
 export function InputForm() {
   const addLocation = useLocationStore((state) => state.addLocation);
-  const test = useFormValueStore((state) => state);
+  const formValues = useFormValueStore((state) => state);
+  const setFormValues = useFormValueStore((state) => state.setValues);
 
   const form = useForm<z.infer<typeof LocationFormSchema>>({
     resolver: zodResolver(LocationFormSchema),
@@ -31,17 +33,27 @@ export function InputForm() {
   });
 
   useEffect(() => {
-    if (test.lat === null || test.lng === null) return;
-    form.setValue("latitude", test.lat);
-    form.setValue("longitude", test.lng);
-  }, [form, test]);
+    if (formValues.lat === null || formValues.lng === null) return;
+    form.setValue("latitude", formValues.lat);
+    form.setValue("longitude", formValues.lng);
+  }, [form, formValues]);
 
   async function onSubmit(values: z.infer<typeof LocationFormSchema>) {
     const data = await getRoofArea(values.latitude, values.longitude);
     const segments = await getRoofSegments(values.latitude, values.longitude);
     console.log(segments);
-    addLocation(values.name, values.latitude, values.longitude, data, true);
+    const numberPanels = calculateNumberOfPanels(segments);
+    addLocation(
+      values.name,
+      values.latitude,
+      values.longitude,
+      data,
+      numberPanels,
+      true,
+      segments
+    );
     form.reset();
+    setFormValues(null, null);
   }
 
   return (

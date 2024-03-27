@@ -9,7 +9,9 @@ interface Location {
   latitude: number;
   longitude: number;
   area: number;
+  numberPanels: number;
   selected: boolean;
+  segments?: any;
   onCheckedChange?: (checked: boolean) => void;
 }
 
@@ -20,7 +22,9 @@ interface LocationState {
     latitude: number,
     longitude: number,
     area: number,
-    selected: boolean
+    numberPanels: number,
+    selected: boolean,
+    segments?: any
   ) => void;
   deleteLocation: (id: string) => void;
   setSelected: (id: string, selected: boolean) => void;
@@ -38,7 +42,9 @@ export const useLocationStore = create<LocationState>((set) => ({
     latitude: number,
     longitude: number,
     area: number,
-    selected: boolean
+    numberPanels: number,
+    selected: boolean,
+    segments?: any
   ) =>
     set((state) => ({
       locations: [
@@ -49,7 +55,9 @@ export const useLocationStore = create<LocationState>((set) => ({
           latitude,
           longitude,
           area,
+          numberPanels,
           selected,
+          segments,
           onCheckedChange: onCheckedChange,
         },
       ],
