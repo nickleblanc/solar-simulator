@@ -25,6 +25,24 @@ export function Graph({ times, acpower }: GraphProps) {
           },
         ],
       },
+      options: {
+        scales: {
+          y: {
+            ticks: {
+              font: {
+                size: 16,
+              },
+            },
+          },
+          x: {
+            ticks: {
+              font: {
+                size: 16,
+              },
+            },
+          },
+        },
+      },
     });
     return () => {
       myChart.destroy();
@@ -33,7 +51,7 @@ export function Graph({ times, acpower }: GraphProps) {
 
   return (
     <div>
-      <canvas id="chart" width="600" height="600"></canvas>
+      <canvas id="chart" width="800" height="600"></canvas>
     </div>
   );
 }
