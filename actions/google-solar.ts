@@ -1,5 +1,7 @@
 // "use server";
 
+import { Segment } from "@/types/segment";
+
 const API_KEY = "AIzaSyCLNTEwwzO2ni2D675At4AXrqXE0pKnX7w";
 
 // export async function getGoogleSolar(latitude: string, longitude: string) {
@@ -20,7 +22,10 @@ export async function getRoofArea(latitude: number, longitude: number) {
   return roofArea;
 }
 
-export async function getRoofSegments(latitude: number, longitude: number) {
+export async function getRoofSegments(
+  latitude: number,
+  longitude: number
+): Promise<Segment[]> {
   const data = await fetch(
     `https://solar.googleapis.com/v1/buildingInsights:findClosest?location.latitude=${latitude}&location.longitude=${longitude}&key=${API_KEY}`,
     { cache: "force-cache" }
