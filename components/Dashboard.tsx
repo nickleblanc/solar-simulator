@@ -28,6 +28,8 @@ import {
 
 import { getRoofArea } from "@/actions/google-solar";
 
+import * as XLSX from "xlsx";
+
 const FormSchema = z.object({
   daterange: z.object({
     from: z.date(),
@@ -64,8 +66,17 @@ export function Dashboard() {
 
   const numLocations = selectedLocations.length;
 
-  const { numPanels, solarProduction, costOfPanels, payback } =
-    calculateNumberOfPanels(totalArea);
+  const totalNumberPanels = selectedLocations.reduce(
+    (acc, location) => acc + location.numberPanels,
+    0
+  );
+
+  const solarProduction = totalNumberPanels * 385;
+  const costOfPanels = Math.round(2.0 * solarProduction * 100) / 100;
+  const payback = costOfPanels / 2125;
+
+  // const { numPanels, solarProduction, costOfPanels, payback } =
+  //   calculateNumberOfPanels(totalArea);
 
   const fetchHistory = async (start: string, end: string) => {
     const body = {
@@ -73,7 +84,7 @@ export function Dashboard() {
       start: start,
       end: end,
       numLocations: numLocations,
-      numPanels: numPanels,
+      numPanels: totalNumberPanels,
     };
     const response = await fetch(`http://localhost:5001/hist`, {
       method: "POST",
@@ -89,7 +100,7 @@ export function Dashboard() {
     const body = {
       parameters: parameters,
       numLocations: numLocations,
-      numPanels: numPanels,
+      numPanels: totalNumberPanels,
     };
     const response = await fetch(`http://localhost:5001/forecast`, {
       method: "POST",
@@ -133,6 +144,34 @@ export function Dashboard() {
     currency: "USD",
   });
 
+  function convertToObj(a: string[], b: number[]) {
+    if (a.length != b.length || a.length == 0 || b.length == 0) {
+      return null;
+    }
+
+    let object = a.map((val1, index) => ({
+      time: val1,
+      acpower: b[index],
+    }));
+
+    return object;
+  }
+
+  const createExcel = () => {
+    let arrayOfObjects = convertToObj(
+      graphData.histsearch.times,
+      graphData.histsearch.acpower
+    );
+    if (!arrayOfObjects) {
+      return;
+    }
+    console.log(arrayOfObjects);
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(arrayOfObjects);
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    XLSX.writeFile(wb, "solar-data.xlsx");
+  };
+
   return (
     <div className="flex flex-col p-2 h-screen">
       <div className="flex flex-row h-1/6 space-x-2">
@@ -157,7 +196,7 @@ export function Dashboard() {
           </CardContent>
         </Card>
       </div>
-      <Tabs defaultValue="map" className="w-full mt-8 h-full flex flex-col">
+      <Tabs defaultValue="map" className="w-full mt-6 h-full flex flex-col">
         <TabsList className="w-[215px]">
           <TabsTrigger value="map">Map</TabsTrigger>
           <TabsTrigger value="history">History</TabsTrigger>
@@ -211,10 +250,13 @@ export function Dashboard() {
           </Form>
           <div className="flex w-full justify-center">
             {graphData && (
-              <Graph
-                times={graphData.histsearch.times}
-                acpower={graphData.histsearch.acpower}
-              />
+              <div className="flex flex-col justify-center space-y-2">
+                <Graph
+                  times={graphData.histsearch.times}
+                  acpower={graphData.histsearch.acpower}
+                />
+                <Button onClick={createExcel}>Export to Excel</Button>
+              </div>
             )}
           </div>
         </TabsContent>
