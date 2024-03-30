@@ -7,16 +7,13 @@ Created on Thu Feb 29 10:37:30 2024
 
 def histsearch(lat, lon, start, end, num_panels, panel_params, panel_series, inverter_data, num_locations):
     import pvlib
-    from pvlib import pvsystem 
     import numpy as np
-    import matplotlib.pyplot as plt
     import pandas as pd
     import openmeteo_requests
-    from datetime import datetime, timedelta, date
+    from datetime import timedelta, date
     import requests_cache
     import pandas as pd
     from retry_requests import retry
-    # from requests_cache import DO_NOT_CACHE 
 
     print(panel_params)
 

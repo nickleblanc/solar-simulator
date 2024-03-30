@@ -7,17 +7,14 @@ Created on Wed Feb 21 14:14:59 2024
 
 def forecast_tool(lat, lon, num_panels, panel_params, panel_series, inverter_data, num_locations):
     import pvlib
-    from pvlib import pvsystem 
     import numpy as np
-    import matplotlib.pyplot as plt
     import pandas as pd
     import openmeteo_requests
 
-    from datetime import datetime, timedelta
+    from datetime import timedelta
     import requests_cache
     import pandas as pd
     from retry_requests import retry
-    # from requests_cache import DO_NOT_CACHE
 
     inverter_data_copy=inverter_data.copy()
     inverter_data_copy['Paco']=inverter_data_copy['Paco']*num_locations
