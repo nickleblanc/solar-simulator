@@ -175,7 +175,7 @@ export function PanelForm() {
             name="n_s"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Number of panels in series</FormLabel>
+                <FormLabel>Number of cells in series</FormLabel>
                 <FormControl>
                   <Input placeholder="" {...field} />
                 </FormControl>
