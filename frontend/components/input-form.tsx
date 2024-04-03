@@ -46,8 +46,8 @@ export function InputForm() {
     console.log(segments);
     const numberPanels = calculateNumberOfPanels(
       segments,
-      panelParameters.length,
-      panelParameters.width
+      panelParameters.selectedPanel.length,
+      panelParameters.selectedPanel.width
     );
     addLocation(
       values.name,

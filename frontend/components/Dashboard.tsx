@@ -71,7 +71,7 @@ export function Dashboard() {
     0
   );
 
-  const solarProduction = totalNumberPanels * parameters.stc;
+  const solarProduction = totalNumberPanels * parameters.selectedPanel.stc;
   const costOfPanels = Math.round(2.0 * solarProduction * 100) / 100;
   const payback = costOfPanels / 2125;
 

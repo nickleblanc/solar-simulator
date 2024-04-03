@@ -20,11 +20,15 @@ interface ParameterState {
 }
 
 interface Actions {
-  setParameters: (values: ParameterState) => void;
+  Panels: ParameterState[];
+  selectedPanel: ParameterState;
+  // setParameters: (values: ParameterState) => void;
+  setSelectedPanel: (values: ParameterState) => void;
+  addPanel: (values: ParameterState) => void;
 }
 
-export const useParameterStore = create<ParameterState & Actions>((set) => ({
-  name: "BYD395MLK-27",
+export const useParameterStore = create<Actions>((set) => ({
+  // name: "BYD395MLK-27",
   // stc: 385,
   // ptc: 288.3,
   // v_mp: 40.24,
@@ -34,18 +38,57 @@ export const useParameterStore = create<ParameterState & Actions>((set) => ({
   // alpha_sc: 0.04,
   // beta_oc: -0.27,
   // gamma_r: -0.35,
-  stc: 395,
-  ptc: 294.8,
-  v_mp: 30.32,
-  i_mp: 13.03,
-  v_oc: 36.9,
-  i_sc: 13.71,
-  alpha_sc: 0.042,
-  beta_oc: -0.254,
-  gamma_r: -0.328,
-  n_s: 108,
-  temp_ref: 25,
-  length: 1.722,
-  width: 1.134,
-  setParameters: (values) => set(values),
+  // stc: 395,
+  // ptc: 294.8,
+  // v_mp: 30.32,
+  // i_mp: 13.03,
+  // v_oc: 36.9,
+  // i_sc: 13.71,
+  // alpha_sc: 0.042,
+  // beta_oc: -0.254,
+  // gamma_r: -0.328,
+  // n_s: 108,
+  // temp_ref: 25,
+  // length: 1.722,
+  // width: 1.134,
+  Panels: [
+    {
+      name: "BYD395MLK-27",
+      stc: 395,
+      ptc: 294.8,
+      v_mp: 30.32,
+      i_mp: 13.03,
+      v_oc: 36.9,
+      i_sc: 13.71,
+      alpha_sc: 0.042,
+      beta_oc: -0.254,
+      gamma_r: -0.328,
+      n_s: 108,
+      temp_ref: 25,
+      length: 1.722,
+      width: 1.134,
+    },
+  ],
+  selectedPanel: {
+    name: "BYD395MLK-27",
+    stc: 395,
+    ptc: 294.8,
+    v_mp: 30.32,
+    i_mp: 13.03,
+    v_oc: 36.9,
+    i_sc: 13.71,
+    alpha_sc: 0.042,
+    beta_oc: -0.254,
+    gamma_r: -0.328,
+    n_s: 108,
+    temp_ref: 25,
+    length: 1.722,
+    width: 1.134,
+  },
+  // setParameters: (values) => set(values),
+  setSelectedPanel: (values) => set({ selectedPanel: values }),
+  addPanel: (values) =>
+    set((state) => ({
+      Panels: [...state.Panels, values],
+    })),
 }));

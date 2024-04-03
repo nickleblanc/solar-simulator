@@ -22,38 +22,29 @@ export function PanelForm() {
 
   const form = useForm<z.infer<typeof PanelFormSchema>>({
     resolver: zodResolver(PanelFormSchema),
-    defaultValues: {
-      name: parameters.name,
-      stc: parameters.stc,
-      ptc: parameters.ptc,
-      v_mp: parameters.v_mp,
-      i_mp: parameters.i_mp,
-      v_oc: parameters.v_oc,
-      i_sc: parameters.i_sc,
-      alpha_sc: parameters.alpha_sc,
-      beta_oc: parameters.beta_oc,
-      gamma_r: parameters.gamma_r,
-      n_s: parameters.n_s,
-      temp_ref: parameters.temp_ref,
-      length: parameters.length,
-      width: parameters.width,
-    },
+    // defaultValues: {
+    //   name: parameters.name,
+    //   stc: parameters.stc,
+    //   ptc: parameters.ptc,
+    //   v_mp: parameters.v_mp,
+    //   i_mp: parameters.i_mp,
+    //   v_oc: parameters.v_oc,
+    //   i_sc: parameters.i_sc,
+    //   alpha_sc: parameters.alpha_sc,
+    //   beta_oc: parameters.beta_oc,
+    //   gamma_r: parameters.gamma_r,
+    //   n_s: parameters.n_s,
+    //   temp_ref: parameters.temp_ref,
+    //   length: parameters.length,
+    //   width: parameters.width,
+    // },
   });
 
-  const setParameters = useParameterStore((state) => state.setParameters);
+  // const setParameters = useParameterStore((state) => state.setParameters);
+  const addPanel = useParameterStore((state) => state.addPanel);
 
   async function onSubmit(values: z.infer<typeof PanelFormSchema>) {
-    setParameters(values);
-    for (const location of locations) {
-      const numPanels = calculateNumberOfPanels(
-        location.segments,
-        values.length,
-        values.width
-      );
-      console.log(numPanels);
-      location.numberPanels = numPanels;
-      console.log(location);
-    }
+    addPanel(values);
   }
 
   return (
