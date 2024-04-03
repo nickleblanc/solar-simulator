@@ -5,6 +5,7 @@ import { useLocationStore } from "@/stores/locations";
 import { SwitchSlider } from "@/components/Switch";
 import { DeleteButton } from "@/components/delete-button";
 import { Button } from "@/components/ui/button";
+import { PanelSelector } from "@/components/panel-selector";
 import { PanelForm } from "@/components/panel-input-form";
 import {
   Dialog,
@@ -21,6 +22,7 @@ export function SideBar() {
   return (
     <div className="flex flex-col h-full">
       <InputForm />
+      <PanelSelector />
       <div>
         <h2 className="font-bold mt-6">Locations</h2>
         {locations.map((location) => {
