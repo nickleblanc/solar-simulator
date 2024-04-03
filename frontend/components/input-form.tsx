@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { getRoofArea, getRoofSegments } from "@/actions/google-solar";
 import { useLocationStore } from "@/stores/locations";
 import { useFormValueStore } from "@/stores/form-values";
+import { useParameterStore } from "@/stores/parameters";
 import { useEffect } from "react";
 import { calculateNumberOfPanels } from "@/lib/panel";
 
@@ -24,6 +25,7 @@ export function InputForm() {
   const addLocation = useLocationStore((state) => state.addLocation);
   const formValues = useFormValueStore((state) => state);
   const setFormValues = useFormValueStore((state) => state.setValues);
+  const panelParameters = useParameterStore((state) => state);
 
   const form = useForm<z.infer<typeof LocationFormSchema>>({
     resolver: zodResolver(LocationFormSchema),
@@ -42,7 +44,11 @@ export function InputForm() {
     const data = await getRoofArea(values.latitude, values.longitude);
     const segments = await getRoofSegments(values.latitude, values.longitude);
     console.log(segments);
-    const numberPanels = calculateNumberOfPanels(segments);
+    const numberPanels = calculateNumberOfPanels(
+      segments,
+      panelParameters.length,
+      panelParameters.width
+    );
     addLocation(
       values.name,
       values.latitude,
@@ -107,7 +113,7 @@ export function InputForm() {
           )}
         />
         <Button type="submit" className="w-full">
-          Add
+          Add Location
         </Button>
       </form>
     </Form>
