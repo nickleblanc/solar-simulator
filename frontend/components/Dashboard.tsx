@@ -71,9 +71,11 @@ export function Dashboard() {
     0
   );
 
-  const solarProduction = totalNumberPanels * 385;
+  const solarProduction = totalNumberPanels * parameters.stc;
   const costOfPanels = Math.round(2.0 * solarProduction * 100) / 100;
   const payback = costOfPanels / 2125;
+
+  const roi = getSavings();
 
   // const { numPanels, solarProduction, costOfPanels, payback } =
   //   calculateNumberOfPanels(totalArea);
@@ -172,14 +174,38 @@ export function Dashboard() {
     XLSX.writeFile(wb, "solar-data.xlsx");
   };
 
+  function getSavings() {
+    if (!graphData) {
+      return 0;
+    }
+    let t1 =
+      graphData.histsearch.times[1][9] + graphData.histsearch.times[1][10];
+    let t2 =
+      graphData.histsearch.times[2][9] + graphData.histsearch.times[2][10];
+    let diff = t2 - t1;
+    diff = diff / 60;
+    let sum = 0;
+    for (const el of graphData.histsearch.acpower) {
+      sum += el;
+    }
+    let savings = (sum * diff * 15.87) / 100000;
+    return savings;
+  }
+
   return (
-    <div className="flex flex-col p-2 h-screen">
+    <div className="flex flex-col p-4 h-screen">
       <div className="flex flex-row h-1/6 space-x-2">
         <Card className="grow">
           <CardHeader>
             <CardTitle>Array Size</CardTitle>
           </CardHeader>
           <CardContent>{solarProduction / 1000} kW</CardContent>
+        </Card>
+        <Card className="grow">
+          <CardHeader>
+            <CardTitle>Number of Panels</CardTitle>
+          </CardHeader>
+          <CardContent>{totalNumberPanels}</CardContent>
         </Card>
         <Card className="grow">
           <CardHeader>
@@ -227,42 +253,61 @@ export function Dashboard() {
             </APIProvider>
           </Card>
         </TabsContent>
-        <TabsContent value="history" className="flex">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="daterange"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <Calendar
-                      mode="range"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      disabled={{ after: new Date() }}
-                    />
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit">Submit</Button>
-            </form>
-          </Form>
-          <div className="flex w-full justify-center">
-            {graphData && (
-              <div className="flex flex-col justify-center space-y-2">
-                <Graph
-                  times={graphData.histsearch.times}
-                  acpower={graphData.histsearch.acpower}
-                />
-                <Button onClick={createExcel}>Export to Excel</Button>
-              </div>
-            )}
+        <TabsContent value="history" className="grow">
+          <div className="flex h-full">
+            <div className="flex flex-col h-full">
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-8"
+                >
+                  <FormField
+                    control={form.control}
+                    name="daterange"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <Calendar
+                          mode="range"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={{ after: new Date() }}
+                        />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button type="submit">Submit</Button>
+                </form>
+              </Form>
+              {graphData && (
+                <Card className="w-full mt-4">
+                  <CardHeader>
+                    <CardTitle>Savings</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <span>{stringToDollars.format(roi)}</span>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+            <div className="flex w-full justify-center h-full">
+              {graphData && (
+                <div className="flex flex-col space-y-4 h-full w-full pl-8">
+                  <Graph
+                    times={graphData.histsearch.times}
+                    acpower={graphData.histsearch.acpower}
+                  />
+                  <Button onClick={createExcel}>Export to Excel</Button>
+                </div>
+              )}
+            </div>
           </div>
         </TabsContent>
         <TabsContent value="forecast" className="flex">
-          <div className="flex w-full justify-center">
-            <Button onClick={onClick}>Fetch Forecast</Button>
+          <div className="flex w-full justify-center space-x-2">
+            <div className="mt-2">
+              <Button onClick={onClick}>Fetch Forecast</Button>
+            </div>
             {forecastData && (
               <Graph
                 times={forecastData.forecast.times}
