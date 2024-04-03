@@ -33,6 +33,7 @@ export function Graph({ times, acpower }: GraphProps) {
                 size: 16,
               },
             },
+            min: 0,
           },
           x: {
             ticks: {
@@ -42,6 +43,7 @@ export function Graph({ times, acpower }: GraphProps) {
             },
           },
         },
+        responsive: true,
       },
     });
     return () => {
@@ -50,8 +52,8 @@ export function Graph({ times, acpower }: GraphProps) {
   }, [times, acpower]);
 
   return (
-    <div>
-      <canvas id="chart" width="800" height="600"></canvas>
+    <div className="relative h-full w-full">
+      <canvas id="chart"></canvas>
     </div>
   );
 }
