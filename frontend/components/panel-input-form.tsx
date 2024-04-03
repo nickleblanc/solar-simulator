@@ -13,13 +13,17 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { PanelFormSchema } from "@/schemas";
 import { useParameterStore } from "@/stores/parameters";
+import { useLocationStore } from "@/stores/locations";
+import { calculateNumberOfPanels } from "@/lib/panel";
 
 export function PanelForm() {
   const parameters = useParameterStore((state) => state);
+  const locations = useLocationStore((state) => state.locations);
 
   const form = useForm<z.infer<typeof PanelFormSchema>>({
     resolver: zodResolver(PanelFormSchema),
     defaultValues: {
+      name: parameters.name,
       stc: parameters.stc,
       ptc: parameters.ptc,
       v_mp: parameters.v_mp,
@@ -39,14 +43,36 @@ export function PanelForm() {
   const setParameters = useParameterStore((state) => state.setParameters);
 
   async function onSubmit(values: z.infer<typeof PanelFormSchema>) {
-    console.log(values);
     setParameters(values);
+    for (const location of locations) {
+      const numPanels = calculateNumberOfPanels(
+        location.segments,
+        values.length,
+        values.width
+      );
+      console.log(numPanels);
+      location.numberPanels = numPanels;
+      console.log(location);
+    }
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="">
         <div className="grid grid-cols-2 grid-rows-6 space-x-1">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Panel Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="stc"
@@ -104,7 +130,7 @@ export function PanelForm() {
             name="v_oc"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Open circuit voltage under (V)</FormLabel>
+                <FormLabel>Open circuit voltage under STC (V)</FormLabel>
                 <FormControl>
                   <Input placeholder="" {...field} />
                 </FormControl>

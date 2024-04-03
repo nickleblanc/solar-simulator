@@ -11,6 +11,9 @@ export const LocationFormSchema = z.object({
 });
 
 export const PanelFormSchema = z.object({
+  name: z.string().min(1, {
+    message: "Name must be at least 1 character.",
+  }),
   stc: z.coerce
     .number({ invalid_type_error })
     .positive("Value must be positive"),
