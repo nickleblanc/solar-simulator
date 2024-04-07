@@ -308,12 +308,17 @@ export function Dashboard() {
             <div className="mt-2">
               <Button onClick={onClick}>Fetch Forecast</Button>
             </div>
-            {forecastData && (
-              <Graph
-                times={forecastData.forecast.times}
-                acpower={forecastData.forecast.acpower}
-              />
-            )}
+            <div className="flex w-full justify-center h-full">
+              {forecastData && (
+                <div className="flex flex-col space-y-4 h-full w-full pl-8">
+                  <Graph
+                    times={forecastData.forecast.times}
+                    acpower={forecastData.forecast.acpower}
+                  />
+                  <Button onClick={createExcel}>Export to Excel</Button>
+                </div>
+              )}
+            </div>
           </div>
         </TabsContent>
       </Tabs>
