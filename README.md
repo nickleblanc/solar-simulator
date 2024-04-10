@@ -6,7 +6,7 @@ This is a program written in Next.js and Tauri used for simulating the solar pot
 
 ## Installation Instructions
 
-1. Download and install Docker Desktop
+1. Download and install Docker Desktop:
    https://docs.docker.com/desktop/
 
 2. Set up a Google Cloud Project for the Solar API by following [these instructions](https://developers.google.com/maps/documentation/solar/cloud-setup?_gl=1*15cpnpq*_up*MQ..*_ga*NzA5NDg1NTg4LjE3MTI3NjQxOTA.*_ga_NRWSTWS78N*MTcxMjc2NDE4OS4xLjAuMTcxMjc2NDE4OS4wLjAuMA..), make sure to follow the instructions for enabling the Solar API
@@ -17,7 +17,7 @@ This is a program written in Next.js and Tauri used for simulating the solar pot
 
 5. Clone the repository using
 
-```console
+```zsh
 git clone https://github.com/nickleblanc/solar-simulator-monorepo.git
 ```
 
@@ -32,7 +32,7 @@ Replacing {SOLAR_API_KEY} and {MAPS_API_KEY} with the two API keys generated in 
 
 7. Open a Terminal window inside of the project directory and run the following commands
 
-```console
+```zsh
 docker-compose build
 docker-compose up
 ```
